@@ -414,10 +414,9 @@ def declaration(doc):
     page_break(doc)
     h1(doc, "Group Declaration")
     para(doc,
-         "We declare that this proposal is the result of our own group work for CSC584 Enterprise "
-         "Programming. All sources, libraries and reference materials used have been acknowledged. "
-         "The system described in this proposal was designed, implemented and tested by the group "
-         "members listed below.")
+         "This proposal is our own group work for CSC584 Enterprise Programming. We designed and "
+         "built the system described here, tested it together, and acknowledged every source, library "
+         "and reference we used. The table below lists the group members and their student IDs.")
     doc.add_paragraph()
     table = doc.add_table(rows=1, cols=4)
     table.alignment = WD_TABLE_ALIGNMENT.CENTER
@@ -480,49 +479,46 @@ def overview(doc):
 
     h2(doc, "1.1  Introduction")
     para(doc,
-         "Running has become one of the fastest-growing mass-participation activities in Malaysia. "
-         "Every weekend, thousands of runners register for road races, trail events, fun runs and "
-         "virtual challenges organised by clubs, charities and commercial race organisers. Although "
-         "demand is high, many organisers still depend on a combination of online forms, spreadsheets, "
-         "bank-transfer screenshots and messaging groups to run an event. The result is duplicated "
-         "entries, slow payment reconciliation, unclear cancellation policies and a poor experience "
-         "for both runners and organisers.")
+         "Road races have become a regular weekend habit in Malaysia. Clubs, charities and commercial "
+         "organisers put on everything from 5 km fun runs to full marathons, and thousands of people "
+         "sign up every month. Yet many events are still run from a mix of online forms, spreadsheets, "
+         "bank-transfer screenshots and messaging groups. That works until the entries start to pile "
+         "up. Then the same runner appears twice, a payment cannot be matched to an entry, and nobody "
+         "is sure which copy of the participant list is the latest.")
     para(doc,
-         "RunEase is a web-based running event management system that brings the complete event "
-         "lifecycle into one platform. Participants can discover approved races, compare categories, "
-         "register, pay, receive a bib number and manage their entries. Organisers can draft an event, "
-         "define race categories and quotas, submit it for approval, check runners in on race day, "
-         "record finish times and export reports. Administrators verify organisers, review events, "
-         "manage user accounts and audit every important action.")
+         "RunEase puts that whole process in one place. Runners can browse approved races, compare "
+         "categories, register and pay, then keep their bib and entry details in a single dashboard. "
+         "Organisers can create an event, set categories and quotas, send it for approval, check "
+         "runners in on race day and record results. Administrators verify organisers, review submitted "
+         "events, manage accounts and go through the audit trail when something goes wrong.")
     para(doc,
-         "The system is implemented as a Java EE web application using the Model-View-Controller "
-         "(MVC) pattern. Servlets act as controllers, JavaBeans model the domain, JSP and JSTL render "
-         "the views, and JDBC with a relational database provides persistence. The interface uses a "
-         "responsive, modern design system so that the same application works on a laptop at race "
-         "headquarters and on a phone at the starting line.")
+         "We built the system as a Java EE web application that follows the Model-View-Controller "
+         "(MVC) pattern. Servlets handle requests, JavaBeans hold the data, JSP and JSTL draw the pages, "
+         "and JDBC talks to a relational database. The interface is responsive, so the same screens "
+         "work on a laptop at race headquarters and on a phone at the starting line.")
 
     h2(doc, "1.2  Purpose and Scope")
     para(doc,
-         "The purpose of RunEase is to replace fragmented manual event administration with a single, "
-         "role-aware system that is secure, auditable and easy to use. The scope of the proposal covers:")
+         "RunEase is meant to replace that patchwork with one system that knows who is using it and "
+         "what they are allowed to do. The proposal covers the following:")
     bullets(doc, [
-        "A public catalogue of approved events with keyword search, filters, sorting and pagination.",
-        "Participant registration with category selection, jersey size, emergency contact, payment "
-        "method and a unique registration code and bib number.",
-        "Participant self-service: view entries, pay a reserved entry, cancel an entry and download "
-        "or print race details.",
-        "Organiser workspaces for event drafting, category and quota management, approval submission, "
-        "participant check-in, result recording, announcements and CSV reports.",
-        "Administrator workspaces for organiser verification, event approval or rejection, user account "
-        "management, audit review and platform reports.",
-        "Security controls: authentication, role-based access control, password hashing, CSRF "
+        "A public catalogue of approved events, with search, filters, sorting and pagination.",
+        "Registration that lets a runner choose a category, jersey size, emergency contact and payment "
+        "method, and returns a unique registration code and bib number.",
+        "A participant area for viewing entries, paying for a reserved slot, cancelling an entry and "
+        "printing race details.",
+        "Organiser tools for drafting events, managing categories and quotas, submitting for approval, "
+        "checking participants in, recording results, posting announcements and exporting CSV reports.",
+        "Admin tools for verifying organisers, approving or rejecting events, managing user accounts, "
+        "reviewing audit entries and producing platform reports.",
+        "Security measures: authentication, role-based access control, password hashing, CSRF "
         "protection, security headers, session timeout and audit logging.",
     ])
     para(doc,
-         "Out of scope for this academic implementation are real payment-gateway settlement, automated "
-         "refunds to banks, native mobile applications, chip-timing hardware integration and email or "
-         "SMS delivery. The payment flow is simulated so that the complete registration lifecycle can "
-         "be demonstrated safely, while keeping the design ready for a real gateway adapter.")
+         "Several things are outside this academic build on purpose: real payment settlement, refunds "
+         "to bank accounts, native mobile apps, chip-timing hardware and email or SMS delivery. "
+         "Payments are simulated so the full registration lifecycle can be demonstrated safely, and "
+         "the code is arranged so a real gateway could be plugged in later.")
 
     h2(doc, "1.3  Target Users and Their Needs")
     data_table(doc,
@@ -581,8 +577,8 @@ def overview(doc):
 
     h2(doc, "1.6  Rubric Alignment at a Glance")
     para(doc,
-         "The implementation was planned around the assessment criteria so that each requirement is "
-         "visible in the running system, not only described in the report.")
+         "We planned the build around the assessment criteria, so each requirement can be shown in the "
+         "running system rather than only described in this report.")
     data_table(doc,
                ("Rubric area", "How RunEase implements it"),
                [
@@ -615,17 +611,15 @@ def problem(doc):
 
     h2(doc, "2.1  Current Practice")
     para(doc,
-         "A typical Malaysian running event today is managed through a temporary collection of tools. "
-         "Registration is opened through a form builder, payment proof is uploaded to a shared drive, "
-         "participants are copied into a spreadsheet, and race-day check-in is handled with printed "
-         "lists. Announcements are broadcast through social media and messaging groups, while results "
-         "are published as a PDF after the event.")
+         "Ask a small race organiser how entries are handled and the answer usually sounds the same: "
+         "a form builder for sign-ups, a shared drive for payment screenshots, a spreadsheet for "
+         "participants and a printed list for check-in. Announcements go out on social media or in a "
+         "messaging group, and results are posted as a PDF after someone has keyed them in.")
     para(doc,
-         "This approach works for small events, but it breaks down as soon as entries grow. The same "
-         "runner may appear twice, a payment may not match an entry, a category may be oversold, and "
-         "nobody can prove who changed a record. Organisers spend the last week before an event "
-         "reconciling data instead of preparing the race, and participants lose confidence when their "
-         "entry cannot be found.")
+         "This is workable for a few hundred runners. Beyond that, the cracks show. Duplicate entries "
+         "creep in, payments do not match names, a category sells past its quota, and nobody can say "
+         "who edited a record or when. The last week before the event turns into data cleaning instead "
+         "of race preparation, and runners who cannot find their entry lose trust in the organiser.")
 
     h2(doc, "2.2  Identified Problems and Impact")
     data_table(doc,
@@ -652,9 +646,8 @@ def problem(doc):
 
     h2(doc, "2.3  Proposed Solution")
     para(doc,
-         "RunEase addresses each problem with a specific capability rather than a general promise. The "
-         "table below links the identified problem to the feature that resolves it and to the evidence "
-         "that can be demonstrated in the running system.")
+         "Each problem below has a matching feature in RunEase and a way to demonstrate it. The table "
+         "connects the three.")
     data_table(doc,
                ("Problem", "RunEase capability", "Evidence"),
                [
@@ -679,16 +672,15 @@ def problem(doc):
 
     h2(doc, "2.4  Feasibility")
     bullets(doc, [
-        "Technical feasibility: the system uses the Java EE technologies covered in CSC584 and runs on a "
-        "standard servlet container. H2 provides a zero-configuration database for demonstration, while "
-        "the same schema can be deployed on MySQL.",
-        "Operational feasibility: the interface uses familiar web patterns such as search, filters, "
-        "modals, confirmation dialogs and dashboards, so organisers do not need specialist training.",
-        "Economic feasibility: the application is built entirely with open-source components and can be "
-        "hosted on a low-cost servlet container. It removes manual reconciliation work and reduces the "
-        "risk of costly registration errors.",
-        "Schedule feasibility: the project is delivered as a single Maven WAR with seed data, demo "
-        "accounts and a documented run command, which keeps demonstration and evaluation predictable.",
+        "Technical: everything uses Java EE topics from CSC584 and runs on a standard servlet "
+        "container. H2 gives us a zero-setup database for the demo, and the same schema can be moved "
+        "to MySQL.",
+        "Operational: the screens use patterns people already know — search boxes, filters, modals, "
+        "confirmation prompts and dashboards — so organisers do not need special training.",
+        "Economic: the stack is open source and can run on a low-cost server. The bigger saving is the "
+        "manual reconciliation it removes and the registration mistakes it prevents.",
+        "Schedule: the project ships as one Maven WAR with seed data, demo accounts and a documented "
+        "run command, so demonstrations and marking stay predictable.",
     ])
 
 
@@ -698,25 +690,25 @@ def objectives(doc):
 
     h2(doc, "3.1  General Objective")
     para(doc,
-         "To design and develop a secure, responsive and auditable Java EE web application that manages "
-         "the complete lifecycle of running events for participants, organisers and administrators.")
+         "To design and build a secure, responsive Java EE web application that handles the full "
+         "lifecycle of running events for participants, organisers and administrators.")
 
     h2(doc, "3.2  Specific Objectives")
     numbered(doc, [
-        "To provide a public, searchable catalogue of approved running events with category, location, "
-        "date and price information.",
-        "To implement a guided registration and checkout process that validates participant details, "
-        "enforces category quotas and produces a unique registration code and bib number.",
-        "To give participants self-service control over their entries, including payment of reserved "
-        "entries, cancellation and profile updates.",
-        "To give organisers a complete workspace for drafting events, managing categories, submitting for "
-        "approval, checking participants in, recording results and publishing announcements.",
-        "To give administrators governance tools for organiser verification, event review, user account "
-        "management, reporting and audit investigation.",
-        "To apply enterprise security practices: password hashing, session management, role-based access "
-        "control, CSRF protection, security headers and audit logging.",
-        "To deliver a consistent, responsive and accessible user interface with breadcrumbs, clear error "
-        "messages and confirmation for destructive actions.",
+        "To publish a searchable catalogue of approved running events, including category, location, "
+        "date and price.",
+        "To run a guided registration and checkout flow that checks participant details, enforces "
+        "category quotas and issues a unique registration code and bib number.",
+        "To let participants pay for a reserved entry, cancel an entry and update their profile without "
+        "contacting the organiser.",
+        "To give organisers one workspace for drafting events, managing categories, submitting for "
+        "approval, checking runners in, recording results and posting announcements.",
+        "To give administrators the tools to verify organisers, review events, manage accounts, run "
+        "reports and investigate activity through the audit log.",
+        "To apply enterprise security practices: password hashing, session management, role-based "
+        "access control, CSRF protection, security headers and audit logging.",
+        "To keep the interface consistent and responsive, with breadcrumbs, clear error messages and "
+        "confirmation before anything destructive happens.",
     ])
 
     h2(doc, "3.3  Success Criteria")
@@ -736,51 +728,49 @@ def objectives(doc):
 
 SCREENS = [
     ("01-home.jpeg", "Figure 4.1 — Public landing page",
-     "The landing page introduces the platform, highlights the three role journeys and surfaces approved "
-     "events. The public shell uses the same navigation and visual language as the authenticated application."),
+     "The landing page explains what RunEase does, points visitors to the three role journeys and shows "
+     "approved events. It uses the same navigation and visual style as the signed-in application."),
     ("02-catalog.jpeg", "Figure 4.2 — Event catalogue with search, filters, sorting and pagination",
-     "Visitors can search by keyword and narrow results by event type, state and date. Sort links and page "
-     "links preserve the active query string, and each card shows the next important decision: date, location, "
-     "distance and entry price."),
+     "Visitors can search by keyword and narrow the list by type, state and date. Sort and page links "
+     "keep the current query string, and each card shows what a runner needs to decide: date, location, "
+     "distance and price."),
     ("04-event-detail.jpeg", "Figure 4.3 — Event detail and race categories",
-     "The event page presents the race story, schedule, venue and category table. Registration state is "
-     "computed per category, so a closed, full or not-yet-open category is clearly explained instead of "
-     "showing a dead button."),
+     "The event page carries the race description, schedule, venue and category table. Each category "
+     "shows whether it is open, full or not yet open, so nobody clicks a button that cannot work."),
     ("03-participant-dashboard.jpeg", "Figure 4.4 — Participant dashboard",
-     "The participant dashboard summarises upcoming races, confirmed entries, spending and recent activity. "
-     "It is the runner's home for payments, bib details and cancellations."),
+     "This is the runner's home page. It summarises upcoming races, confirmed entries, money spent and "
+     "recent activity, and links straight to payments, bib details and cancellations."),
     ("05-checkout.jpeg", "Figure 4.5 — Checkout with dual-layer validation",
-     "Checkout collects jersey size, emergency contact, medical notes and payment method. Required fields "
-     "are marked, client constraints give immediate feedback, and the server repeats every check before "
-     "creating the registration and payment records."),
+     "Checkout asks for jersey size, emergency contact, medical notes and payment method. Required "
+     "fields are marked, the browser gives immediate feedback and the server repeats every check before "
+     "it creates the registration and payment."),
     ("06-registration-detail.jpeg", "Figure 4.6 — Registration detail, payment and bib card",
-     "The registration page is the participant's proof of entry. It shows the registration code, status, "
-     "category, bib number, payment method, emergency and medical notes, and offers pay-later or "
-     "confirmation-protected cancellation."),
+     "The registration page is the runner's proof of entry: code, status, category, bib number, payment "
+     "method, emergency and medical notes. From here they can pay later or cancel after confirming."),
     ("07-organizer-dashboard.jpeg", "Figure 4.7 — Organiser dashboard",
-     "The organiser dashboard combines event status, registration trends, revenue and race-day readiness. "
-     "Cards link directly to the next operational task, such as reviewing a draft or checking in runners."),
+     "The organiser dashboard pulls together event status, registration trends, revenue and race-day "
+     "readiness. Each card links to the next job, such as reviewing a draft or checking runners in."),
     ("08-organizer-events.jpeg", "Figure 4.8 — Organiser event list",
-     "Event management uses a searchable, filterable and sortable table with status pills and contextual "
-     "actions. Destructive actions are protected by a confirmation dialog, and edit forms open pre-filled."),
+     "Events are listed in a table that can be searched, filtered and sorted, with status pills and "
+     "actions for each row. Deletions ask for confirmation and edit forms open already filled in."),
     ("09-organizer-participants.jpeg", "Figure 4.9 — Participant management and check-in",
-     "Organisers can filter runners by event, category and status, then check a runner in with one "
-     "confirmed action. The action is written to the audit log with the organiser's account and IP address."),
+     "Organisers can filter runners by event, category and status, then check someone in with one "
+     "confirmed action. The audit log records who did it and from which IP address."),
     ("10-organizer-reports.jpeg", "Figure 4.10 — Reports with filters and CSV export",
-     "Reports provide live totals for registrations, revenue and attendance. The same filter bar drives the "
-     "table and the CSV export, so the downloaded file always matches what the organiser sees."),
+     "Reports show live totals for registrations, revenue and attendance. The filter bar drives both "
+     "the table and the CSV export, so the downloaded file matches what is on screen."),
     ("11-admin-dashboard.jpeg", "Figure 4.11 — Administrator dashboard",
-     "The admin dashboard gives a platform-wide view of users, organisers, events, registrations, revenue "
-     "and pending approvals, with direct links into the review queues."),
+     "The admin dashboard gives a platform-wide view of users, organisers, events, registrations, "
+     "revenue and pending approvals, with links into each review queue."),
     ("12-admin-events.jpeg", "Figure 4.12 — Event review and approval",
-     "Administrators review submitted events in context and either approve them for the public catalogue or "
-     "reject them with a reason. The decision and reason are stored and shown to the organiser."),
+     "Admins read a submitted event in context, then approve it for the catalogue or reject it with a "
+     "reason. Both the decision and the reason are stored and shown to the organiser."),
     ("13-admin-users.jpeg", "Figure 4.13 — Asynchronous user management",
-     "The user page loads and mutates accounts through a JSON API. Create and edit operations use a modal, "
-     "field errors return as 422 responses, and status changes are applied without leaving the page."),
+     "The user page loads and changes accounts through a JSON API. Create and edit use a modal, "
+     "validation errors come back as 422 responses and status changes happen without a page reload."),
     ("14-admin-audit.jpeg", "Figure 4.14 — Audit trail",
-     "Every sensitive action is recorded with actor, action, entity, description, IP address and timestamp. "
-     "The audit page supports filtering and paging so that an incident can be reconstructed quickly."),
+     "Every sensitive action is stored with the actor, action, entity, description, IP address and "
+     "time. Filters and paging make it practical to reconstruct an incident."),
 ]
 
 
@@ -790,17 +780,20 @@ def interface(doc):
 
     h2(doc, "4.1  Design Direction")
     para(doc,
-         "RunEase uses a deliberately restrained visual language: deep navy surfaces, a lime accent for "
-         "primary actions and status highlights, generous spacing and a strong typographic hierarchy. "
-         "The interface is designed for two very different contexts: a participant browsing on a phone "
-         "and an organiser working through a dense operational table on a laptop.")
+         "We kept the visual design simple on purpose: dark navy surfaces, a lime accent for primary "
+         "actions and status highlights, plenty of white space and a clear type hierarchy. The same "
+         "interface has to work in two very different places — a runner scrolling on a phone and an "
+         "organiser working through a dense table on a laptop.")
     bullets(doc, [
-        "Palette: navy #0B1220, lime #C9F04C, slate #5C677D and a soft paper background for data-heavy screens.",
-        "Typography: Inter for interface text and Space Grotesk for display headings.",
-        "Layout: responsive CSS grid and flexbox, with a collapsible sidebar on small screens and a sticky top bar.",
-        "Components: cards, status pills, timelines, tabs, filter bars, data tables, modals, toasts and empty states.",
-        "Accessibility: semantic landmarks, visible focus styles, labelled form controls, skip link, ARIA live "
-        "regions for flash messages and sufficient colour contrast.",
+        "Colour: navy #0B1220 for structure, lime #C9F04C for actions and status, slate #5C677D for "
+        "secondary text, and a soft paper background behind data-heavy screens.",
+        "Type: Inter for interface text and Space Grotesk for display headings.",
+        "Layout: responsive CSS grid and flexbox, a collapsible sidebar on small screens and a sticky "
+        "top bar.",
+        "Components: cards, status pills, timelines, tabs, filter bars, data tables, modals, toasts and "
+        "empty states.",
+        "Accessibility: semantic landmarks, visible focus styles, labelled controls, a skip link, ARIA "
+        "live regions for flash messages and colour combinations that pass contrast checks.",
     ])
 
     h2(doc, "4.2  Navigation and Information Architecture")
@@ -816,16 +809,16 @@ def interface(doc):
                ],
                widths=(2.6, 8.8, 4.9))
     para(doc,
-         "Every authenticated page shares the same application shell: a role-aware sidebar, a top bar with "
-         "search and account menu, a breadcrumb trail and a flash-message region. This consistency is "
-         "important because a single user may hold different responsibilities over time and because "
-         "deep links from reports must still make sense in context.")
+         "Every signed-in page uses the same shell: a sidebar that changes with the role, a top bar "
+         "with search and the account menu, a breadcrumb trail and a space for flash messages. That "
+         "consistency matters when one person holds more than one role, and when a link from a report "
+         "has to make sense after it is opened.")
 
     h2(doc, "4.3  Proposed Screens")
     para(doc,
-         "The following screens were captured from the implemented system. Together they cover the public "
-         "journey, the participant journey, the organiser workspace and the administrator workspace, "
-         "exceeding the minimum of five proposed screens.")
+         "These screenshots come from the working system. Between them they cover the public site, the "
+         "participant journey, the organiser workspace and the admin area — well beyond the five "
+         "screens the brief asks for.")
 
     for i, (filename, cap, text) in enumerate(SCREENS):
         path = SHOTS / filename
@@ -864,10 +857,10 @@ def interface(doc):
 
     h2(doc, "4.5  Responsive Behaviour")
     para(doc,
-         "The layout is tested from 360 px phone widths to desktop widths. Data tables collapse into "
-         "horizontally scrollable regions rather than breaking the page, filter bars wrap, the sidebar "
-         "becomes an off-canvas drawer, and primary actions remain reachable with one thumb. The same "
-         "templates are used across roles, which keeps the responsive behaviour predictable.")
+         "We tested the layout from 360 px phone widths up to desktop. Wide tables scroll horizontally "
+         "instead of breaking the page, filter bars wrap, the sidebar turns into an off-canvas drawer "
+         "and primary actions stay within thumb reach. The same templates are reused across roles, so "
+         "the behaviour stays predictable.")
 
 
 DDL = {
@@ -1005,22 +998,24 @@ def database(doc):
 
     h2(doc, "5.1  Design Approach")
     para(doc,
-         "The database is designed in third normal form around four questions: who is acting, what event "
-         "are they running, what entry did they buy, and what happened on race day. Each entity has a "
-         "single responsibility, and every relationship is enforced with a foreign key. Enumerated values "
-         "are protected by CHECK constraints so that an invalid status cannot enter the database even if "
-         "application validation is bypassed.")
+         "The schema is in third normal form and is built around four questions: who is acting, which "
+         "event are they running, what entry did they buy, and what happened on race day. Each table has "
+         "one job, and every relationship is held together by a foreign key. Status values are also "
+         "guarded by CHECK constraints, so a bad value cannot slip in even if the application "
+         "validation is bypassed.")
     bullets(doc, [
-        "Normalisation: repeating data such as category names and event titles is stored once and referenced by key.",
-        "Referential integrity: foreign keys protect organiser, category, registration, payment and result links.",
-        "Business rules: unique registration code and bib, unique payment and result per registration, one "
-        "active entry per participant per event, and positive quotas, prices and finish times.",
-        "Soft deletion: events, users, announcements and registrations keep deleted_at markers so that history "
-        "and audit references remain valid.",
-        "Indexes: role and status, event date, category status, registration date, payment status, result time, "
-        "announcement event and audit timestamp.",
-        "Transactions: quota checks, registration creation, payment confirmation, approval and result ranking run "
-        "inside database transactions.",
+        "Normalisation: things like category names and event titles are stored once and referenced by key.",
+        "Referential integrity: foreign keys protect the links between organisers, categories, "
+        "registrations, payments and results.",
+        "Business rules: registration codes and bibs are unique, each registration has one payment and at "
+        "most one result, a runner cannot hold two active entries in the same event, and quotas, prices "
+        "and finish times must be positive.",
+        "Soft deletion: events, users, announcements and registrations keep a deleted_at marker, so "
+        "history and audit references still make sense.",
+        "Indexes: role and status, event date, category status, registration date, payment status, finish "
+        "time, announcement event and audit timestamp.",
+        "Transactions: quota checks, registration creation, payment confirmation, approval and result "
+        "ranking all run inside database transactions.",
     ])
 
     h2(doc, "5.2  Table Summary")
@@ -1031,8 +1026,8 @@ def database(doc):
 
     h2(doc, "5.3  Data Dictionary")
     para(doc,
-         "The following tables document the physical schema. Types are shown in MySQL/H2 form; the "
-         "application schema uses the same definitions for both databases.")
+         "The tables below describe the physical schema. Types are written in MySQL/H2 form; both "
+         "databases use the same definitions.")
     for index, (table, responsibility, purpose) in enumerate(TABLE_PURPOSE, start=1):
         h3(doc, f"5.3.{index}  {table}")
         para(doc, purpose, size=9.5, color=SLATE, space_after=3)
@@ -1044,9 +1039,9 @@ def database(doc):
     landscape(section)
     h2(doc, "5.4  Entity Relationship Diagram")
     para(doc,
-         "The ERD below shows the nine tables and their relationships. Solid lines represent the primary "
-         "transaction paths; dashed lines represent secondary actor references such as the administrator "
-         "who verified an organiser or the organiser who recorded a result.", size=9.5)
+         "The ERD shows the nine tables and how they connect. Solid lines are the main transaction "
+         "paths, while dashed lines are secondary references such as the admin who verified an "
+         "organiser or the organiser who recorded a result.", size=9.5)
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p.paragraph_format.keep_with_next = True
@@ -1076,17 +1071,17 @@ def database(doc):
 
     h2(doc, "5.6  Integrity and Security Notes")
     bullets(doc, [
-        "The application never stores plaintext passwords; BCrypt hashes are compared during login.",
-        "Registration creation locks the category row before checking the quota, preventing two simultaneous "
-        "checkouts from overselling the last slot.",
-        "Active-entry checks run in the same transaction as registration creation, backed by application logic "
-        "and a filtered query for non-cancelled entries.",
-        "Unique constraints on registration_code, bib_number, reference_no and the payment/result registration "
-        "links protect against duplicate records.",
-        "Audit records are written inside the same transaction as the business change, so an action cannot "
-        "succeed without its audit entry.",
-        "Database credentials and the JDBC URL are supplied through environment variables, not hard-coded in "
-        "production configuration.",
+        "Passwords are never stored in plain text; login compares against a BCrypt hash.",
+        "Registration creation locks the category row before checking the quota, so two people cannot buy "
+        "the last slot at the same time.",
+        "The duplicate-entry check runs in the same transaction as registration creation, with a query "
+        "that ignores cancelled entries.",
+        "Unique constraints on registration_code, bib_number, reference_no and the payment/result links "
+        "prevent duplicate records.",
+        "Audit records are written in the same transaction as the change they describe, so an action "
+        "cannot succeed without its audit entry.",
+        "Database credentials and the JDBC URL come from environment variables rather than hard-coded "
+        "production settings.",
     ])
 
 
@@ -1117,10 +1112,10 @@ def flow(doc):
 
     h2(doc, "6.1  Application Flowchart")
     para(doc,
-         "The flowchart below separates the visitor and authentication layer from the three role-based "
-         "workspaces. Solid arrows show the main path; dashed arrows show cross-role handoffs such as an "
-         "organiser submitting an event for approval, an administrator approving it, or a confirmed "
-         "registration appearing in the organiser's participant list.")
+         "The flowchart keeps the public and login layers separate from the three role workspaces. Solid "
+         "arrows are the main path; dashed arrows are handoffs between roles, such as an organiser "
+         "submitting an event, an admin approving it, or a confirmed registration appearing in the "
+         "organiser's participant list.")
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p.paragraph_format.keep_with_next = True
@@ -1133,26 +1128,25 @@ def flow(doc):
     data_table(doc, ("Stage", "What happens", "Control"), FLOW_ROWS, widths=(2.8, 8.5, 5.0), font=8.7)
 
     para(doc,
-         "The flow begins with public discovery, because most runners want to compare events before they "
-         "commit to an account. Authentication is deliberately placed at the point of action rather than "
-         "at the entrance: a visitor can browse the catalogue and open an event, but checkout redirects "
-         "to login and returns to the selected category afterwards.")
+         "The flow starts with public discovery, because most runners compare events before they create "
+         "an account. Login is only required at the point of action: anyone can browse the catalogue and "
+         "open an event, but checkout sends them to sign in and brings them back to the category they "
+         "picked.")
     para(doc,
-         "After login, the role guard selects the correct workspace. A participant sees the runner "
-         "dashboard; an organiser sees event and operational tools; an administrator sees governance "
-         "queues. The same account cannot cross those boundaries by editing a URL, because every "
-         "controller checks the role and, for record-level actions, the ownership of the record.")
+         "Once someone signs in, the role guard chooses the workspace. A participant lands on the runner "
+         "dashboard, an organiser sees event and operational tools, and an admin sees the governance "
+         "queues. Changing the URL does not cross those boundaries, because every controller checks the "
+         "role and, for individual records, who owns them.")
     para(doc,
-         "The organiser and administrator flows meet at the approval boundary. An event exists only as a "
-         "draft until the organiser adds at least one category and submits it. The administrator can then "
-         "approve it, which publishes it to the catalogue, or reject it with a reason that the organiser "
-         "can act on. This boundary prevents unverified or incomplete events from accepting money.")
+         "The organiser and admin flows meet at the approval boundary. An event stays a draft until the "
+         "organiser adds at least one category and submits it. The admin can then approve it, which puts "
+         "it in the catalogue, or reject it with a reason the organiser can act on. That gate stops "
+         "incomplete or unverified events from taking money.")
     para(doc,
-         "The registration flow is transactional. The system locks the category row, checks the quota and "
-         "the participant's active entries, creates the registration and payment records, assigns the "
-         "next bib number when payment is confirmed, and writes an audit entry. If any step fails, the "
-         "transaction rolls back and the participant receives a recoverable error instead of a partial "
-         "registration.")
+         "Registration itself is transactional. The system locks the category row, checks the quota and "
+         "the runner's active entries, creates the registration and payment, assigns the next bib number "
+         "when payment is confirmed, and writes an audit entry. If any step fails, the transaction rolls "
+         "back and the runner gets an error they can fix, not a half-finished registration.")
 
     h2(doc, "6.3  Validation and Error Handling Flow")
     data_table(doc,
@@ -1172,45 +1166,45 @@ def flow(doc):
 
     h2(doc, "6.4  Session and Security Flow")
     para(doc,
-         "A successful login creates a new session identifier, stores only the user identity and role in "
-         "the session, and issues a synchroniser token for CSRF protection. Every state-changing request "
-         "must present that token. The authentication filter checks the session and role before the "
-         "controller runs, while the security headers filter adds CSP, frame, MIME-sniffing, referrer and "
-         "permissions policies. Sensitive responses are marked no-store so that personal data does not "
-         "remain in a shared browser cache.")
+         "A successful login creates a new session ID, keeps only the user identity and role in the "
+         "session, and issues a CSRF token. Every request that changes state has to present that token. "
+         "The authentication filter checks the session and role before the controller runs, and the "
+         "security headers filter adds CSP, frame, MIME-sniffing, referrer and permissions policies. "
+         "Sensitive responses are marked no-store so personal data is not left in a shared browser "
+         "cache.")
 
 
 def conclusion(doc):
     page_break(doc)
     h1(doc, "7.0  Conclusion")
     para(doc,
-         "RunEase demonstrates how a well-structured Java EE application can solve a real operational "
-         "problem without sacrificing security or usability. The proposal has described the gap between "
-         "the current manual administration of running events and the needs of modern participants, "
-         "organisers and administrators, and it has mapped each problem to a concrete system capability.")
+         "RunEase shows how a well-structured Java EE application can solve a real operational problem "
+         "without giving up security or usability. The proposal set out the gap between manual race "
+         "administration and what participants, organisers and admins actually need, then matched each "
+         "problem to something concrete in the system.")
     para(doc,
-         "The implemented design uses the MVC pattern and a normalised relational schema to keep business "
-         "rules in one place. Dual-layer validation, transactional registration, role-based access control, "
-         "CSRF protection and audit logging make the system trustworthy. The interface applies a "
-         "consistent design system across public, participant, organiser and administrator journeys, and "
-         "the reporting layer turns operational data into decisions instead of spreadsheets.")
+         "The build uses MVC and a normalised schema to keep business rules in one place. Validation at "
+         "two layers, transactional registration, role-based access control, CSRF protection and audit "
+         "logging make the results trustworthy. The design system stays consistent across all four "
+         "journeys, and the reporting layer turns day-to-day data into decisions instead of "
+         "spreadsheets.")
     para(doc,
          "The next step is to deploy the WAR to a shared servlet container, connect a production MySQL "
-         "instance, replace the simulated payment adapter with a real gateway and add automated JUnit and "
-         "browser tests. With those extensions, RunEase can move from an academic prototype to a "
-         "production service for race organisers while preserving the same architecture and security model.")
+         "instance, swap the simulated payment adapter for a real gateway and add automated JUnit and "
+         "browser tests. With those in place, RunEase could move from coursework to a service that race "
+         "organisers actually use, without changing the architecture or the security model.")
     para(doc,
-         "In summary, the project meets its objectives: it provides a complete event lifecycle, protects "
-         "each role's data, supports fast and accurate race-day operations, and gives administrators the "
-         "evidence they need to govern the platform.")
+         "Overall, the project meets its objectives. It covers the full event lifecycle, protects each "
+         "role's data, supports fast and accurate race-day work, and gives administrators the evidence "
+         "they need to run the platform.")
 
 
 def appendices(doc):
     page_break(doc)
     h1(doc, "Appendix A — Demonstration Accounts and Setup")
     para(doc,
-         "The application ships with generated demonstration data: 20 users, 3 organisers, 10 events, "
-         "59 registrations, 13 results and audit history. The database schema and seed run automatically "
+         "The application ships with generated demo data: 20 users, 3 organisers, 10 events, "
+         "59 registrations, 13 results and some audit history. The schema and seed load automatically "
          "on first start.")
     data_table(doc,
                ("Role", "Email", "Password", "Purpose"),
@@ -1240,10 +1234,12 @@ def appendices(doc):
 
     h2(doc, "A.2  Database Options")
     bullets(doc, [
-        "Default: embedded H2 in MySQL compatibility mode at ./data/runease; schema and seed are applied automatically.",
+        "Default: embedded H2 in MySQL compatibility mode, stored at ./data/runease; the schema and seed "
+        "are applied automatically.",
         "MySQL: create the schema from database/schema_mysql.sql, load database/seed_mysql.sql, then set "
         "RUNEASE_DB_URL, RUNEASE_DB_USER and RUNEASE_DB_PASSWORD before starting the application.",
-        "The WAR runs on any Jakarta EE 10 servlet container; the embedded Tomcat runner is for demonstration only.",
+        "The WAR runs on any Jakarta EE 10 servlet container; the embedded Tomcat runner is only for "
+        "demonstrations.",
     ])
 
     h1(doc, "Appendix B — Project Structure")
