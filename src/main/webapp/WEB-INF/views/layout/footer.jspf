@@ -1,0 +1,91 @@
+<c:choose>
+  <%-- ============================================================ app shell --%>
+  <c:when test="${shell eq 'app'}">
+        </main>
+        <footer class="app-footer">
+          <span>&copy; 2026 RunEase &middot; CSC584 Enterprise Programming, UiTM</span>
+          <span>Credit by Fakhri</span>
+        </footer>
+      </div>
+    </div>
+  </c:when>
+
+  <%-- =========================================================== auth shell --%>
+  <c:when test="${shell eq 'auth'}">
+    </main>
+  </c:when>
+
+  <%-- ========================================================= public shell --%>
+  <c:otherwise>
+    </main>
+    <footer class="public-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <a class="brand" href="${ctx}/">
+              <span class="brand-mark"><i class="bi bi-lightning-charge-fill"></i></span>
+              <span class="brand-text"><strong>Run</strong><em>Ease</em><small>Running events</small></span>
+            </a>
+            <p class="footer-note mt-3">One place to discover races, manage entries and publish results across Malaysia.</p>
+          </div>
+          <div>
+            <h4>Runners</h4>
+            <ul class="footer-links">
+              <li><a href="${ctx}/events">Browse events</a></li>
+              <li><a href="${ctx}/register">Create an account</a></li>
+              <li><a href="${ctx}/login">Sign in</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Organizers</h4>
+            <ul class="footer-links">
+              <li><a href="${ctx}/register?type=organizer">Apply to organize</a></li>
+              <li><a href="${ctx}/login">Organizer sign in</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>About</h4>
+            <ul class="footer-links">
+              <li><a href="${ctx}/#how-it-works">How it works</a></li>
+              <li><a href="${ctx}/events">Race calendar</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>&copy; 2026 RunEase. Built for CSC584 Enterprise Programming, Universiti Teknologi MARA.</span>
+          <span>Demo data only &middot; No real payments are processed</span>
+        </div>
+      </div>
+    </footer>
+  </c:otherwise>
+</c:choose>
+
+<%-- Shared confirmation dialog: app.js turns data-confirm submissions into a modal. --%>
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="confirmTitle">Please confirm</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="confirm-icon" id="confirmIcon"><i class="bi bi-exclamation-triangle"></i></div>
+        <p class="mb-0" id="confirmBody">Are you sure you want to continue?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger-soft" id="confirmOk">Yes, continue</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
+
+<script src="${ctx}/assets/js/bootstrap.bundle.min.js"></script>
+<script src="${ctx}/assets/js/app.js"></script>
+<c:if test="${path eq '/admin/users'}">
+  <script src="${ctx}/assets/js/users.js"></script>
+</c:if>
+</body>
+</html>

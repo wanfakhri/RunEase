@@ -1,0 +1,26 @@
+# Build output
+target/
+
+# Embedded H2 database (created on first run)
+data/
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# IDE and OS files
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+Thumbs.db
+desktop.ini
+
+# Python
+__pycache__/
+*.pyc
+
+# Local environment overrides
+.env

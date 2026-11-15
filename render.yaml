@@ -1,0 +1,13 @@
+# Render blueprint: deploy RunEase as a free Docker web service.
+# Push this repository to GitHub, then choose "New > Blueprint" on Render.
+services:
+  - type: web
+    name: runease
+    runtime: docker
+    plan: free
+    region: singapore
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: JAVA_OPTS
+        value: -XX:MaxRAMPercentage=75

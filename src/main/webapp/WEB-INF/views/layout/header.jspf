@@ -1,0 +1,220 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+<c:set var="ctx" value="${empty ctx ? pageContext.request.contextPath : ctx}" />
+<c:set var="user" value="${sessionScope.user}" />
+<c:set var="path" value="${empty currentPath ? pageContext.request.servletPath : currentPath}" />
+<c:set var="shell" value="${empty layout ? (empty user ? 'public' : 'app') : layout}" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="${sessionScope.csrfToken}">
+  <meta name="description" content="RunEase is a running event management platform for participants, organizers and administrators.">
+  <title><c:choose><c:when test="${empty pageTitle}">RunEase &middot; Running event management</c:when><c:otherwise><c:out value="${pageTitle}"/> &middot; RunEase</c:otherwise></c:choose></title>
+  <link rel="icon" href="${ctx}/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="${ctx}/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="${ctx}/assets/css/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="${ctx}/assets/css/runease.css">
+</head>
+<body class="layout-${shell}">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<c:choose>
+  <%-- ============================================================ app shell --%>
+  <c:when test="${shell eq 'app'}">
+    <div class="app-shell">
+      <aside class="sidebar" id="appSidebar" aria-label="Main navigation">
+        <a class="brand brand-on-dark" href="${ctx}${user.role.home}">
+          <span class="brand-mark"><i class="bi bi-lightning-charge-fill"></i></span>
+          <span class="brand-text"><strong>Run</strong><em>Ease</em><small>${user.roleLabel}</small></span>
+        </a>
+
+        <c:choose>
+          <c:when test="${user.participant}">
+            <div class="sidebar-label">Runner space</div>
+            <ul class="nav-list">
+              <li class="nav-item"><a class="${path eq '/dashboard' ? 'active' : ''}" href="${ctx}/dashboard"><i class="bi bi-grid-1x2"></i> Dashboard</a></li>
+              <li class="nav-item"><a class="${path eq '/events' or fn:startsWith(path, '/events/') ? 'active' : ''}" href="${ctx}/events"><i class="bi bi-compass"></i> Browse events</a></li>
+              <li class="nav-item"><a class="${fn:startsWith(path, '/registrations') ? 'active' : ''}" href="${ctx}/registrations"><i class="bi bi-ticket-perforated"></i> My registrations</a></li>
+            </ul>
+          </c:when>
+          <c:when test="${user.organizer}">
+            <div class="sidebar-label">Organizer space</div>
+            <ul class="nav-list">
+              <li class="nav-item"><a class="${path eq '/organizer' ? 'active' : ''}" href="${ctx}/organizer"><i class="bi bi-grid-1x2"></i> Dashboard</a></li>
+              <li class="nav-item"><a class="${fn:startsWith(path, '/organizer/events') ? 'active' : ''}" href="${ctx}/organizer/events"><i class="bi bi-flag"></i> My events</a></li>
+              <li class="nav-item"><a class="${fn:startsWith(path, '/organizer/participants') ? 'active' : ''}" href="${ctx}/organizer/participants"><i class="bi bi-people"></i> Participants</a></li>
+              <li class="nav-item"><a class="${fn:startsWith(path, '/organizer/results') ? 'active' : ''}" href="${ctx}/organizer/results"><i class="bi bi-stopwatch"></i> Results</a></li>
+              <li class="nav-item"><a class="${fn:startsWith(path, '/organizer/announcements') ? 'active' : ''}" href="${ctx}/organizer/announcements"><i class="bi bi-megaphone"></i> Announcements</a></li>
+              <li class="nav-item"><a class="${fn:startsWith(path, '/organizer/reports') ? 'active' : ''}" href="${ctx}/organizer/reports"><i class="bi bi-bar-chart"></i> Reports</a></li>
+            </ul>
+          </c:when>
+          <c:otherwise>
+            <div class="sidebar-label">Administration</div>
+            <ul class="nav-list">
+              <li class="nav-item"><a class="${path eq '/admin' ? 'active' : ''}" href="${ctx}/admin"><i class="bi bi-grid-1x2"></i> Dashboard</a></li>
+              <li class="nav-item"><a class="${fn:startsWith(path, '/admin/events') ? 'active' : ''}" href="${ctx}/admin/events"><i class="bi bi-shield-check"></i> Event moderation</a></li>
+              <li class="nav-item"><a class="${path eq '/admin/users' ? 'active' : ''}" href="${ctx}/admin/users"><i class="bi bi-person-gear"></i> Users</a></li>
+              <li class="nav-item"><a class="${path eq '/admin/organizers' ? 'active' : ''}" href="${ctx}/admin/organizers"><i class="bi bi-patch-check"></i> Organizers</a></li>
+              <li class="nav-item"><a class="${path eq '/admin/reports' ? 'active' : ''}" href="${ctx}/admin/reports"><i class="bi bi-bar-chart"></i> Reports</a></li>
+              <li class="nav-item"><a class="${path eq '/admin/audit' ? 'active' : ''}" href="${ctx}/admin/audit"><i class="bi bi-clock-history"></i> Audit trail</a></li>
+            </ul>
+          </c:otherwise>
+        </c:choose>
+
+        <div class="sidebar-label">Account</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a class="${path eq '/profile' ? 'active' : ''}" href="${ctx}/profile"><i class="bi bi-person-circle"></i> Account settings</a></li>
+          <li class="nav-item"><a href="${ctx}/events"><i class="bi bi-box-arrow-up-right"></i> Public catalogue</a></li>
+        </ul>
+
+        <div class="sidebar-foot">
+          <div class="sidebar-profile">
+            <span class="avatar lime">${user.initials}</span>
+            <span class="who">
+              <strong><c:out value="${user.fullName}"/></strong>
+              <span>${user.email}</span>
+            </span>
+            <form method="post" action="${ctx}/logout" data-confirm="Sign out of RunEase?" data-confirm-title="Sign out">
+              <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
+              <button class="border-0 bg-transparent p-0" type="submit" title="Sign out" aria-label="Sign out"><i class="bi bi-box-arrow-right"></i></button>
+            </form>
+          </div>
+        </div>
+      </aside>
+      <div class="sidebar-scrim" data-sidebar-close></div>
+
+      <div class="app-body">
+        <header class="topbar">
+          <button class="icon-btn sidebar-toggle" type="button" data-sidebar-toggle aria-label="Open navigation" aria-controls="appSidebar" aria-expanded="false">
+            <i class="bi bi-list"></i>
+          </button>
+          <nav class="topbar-crumbs" aria-label="Breadcrumb">
+            <ol class="breadcrumbs">
+              <c:choose>
+                <c:when test="${not empty crumbs}">
+                  <c:forEach var="crumb" items="${crumbs}">
+                    <li>
+                      <c:choose>
+                        <c:when test="${crumb.link}"><a href="${ctx}${crumb.url}"><c:out value="${crumb.label}"/></a></c:when>
+                        <c:otherwise><span class="current"><c:out value="${crumb.label}"/></span></c:otherwise>
+                      </c:choose>
+                    </li>
+                  </c:forEach>
+                </c:when>
+                <c:otherwise><li><span class="current"><c:out value="${pageTitle}"/></span></li></c:otherwise>
+              </c:choose>
+            </ol>
+          </nav>
+          <div class="topbar-actions">
+            <a class="icon-btn d-none d-sm-inline-grid" href="${ctx}/events" title="Browse events" aria-label="Browse events"><i class="bi bi-search"></i></a>
+            <div class="dropdown user-menu">
+              <button class="user-menu-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="avatar sm">${user.initials}</span>
+                <span class="who"><strong><c:out value="${user.firstName}"/></strong><span>${user.roleLabel}</span></span>
+                <i class="bi bi-chevron-down small"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li class="dropdown-header">Signed in as</li>
+                <li class="px-3 pb-2 small"><c:out value="${user.email}"/></li>
+                <li><a class="dropdown-item" href="${ctx}/profile"><i class="bi bi-person"></i> Account settings</a></li>
+                <li><a class="dropdown-item" href="${ctx}${user.role.home}"><i class="bi bi-speedometer2"></i> ${user.roleLabel} dashboard</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                  <form method="post" action="${ctx}/logout" data-confirm="Sign out of RunEase?" data-confirm-title="Sign out">
+                    <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
+                    <button class="dropdown-item text-danger" type="submit"><i class="bi bi-box-arrow-right"></i> Sign out</button>
+                  </form>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </header>
+        <main class="app-main" id="main">
+          <c:if test="${not empty flashMessages}">
+            <div class="flash-stack" aria-live="polite">
+              <c:forEach var="flash" items="${flashMessages}">
+                <div class="flash flash-${flash.type}">
+                  <i class="bi ${flash.icon}"></i>
+                  <div class="flash-body"><c:out value="${flash.message}"/></div>
+                  <button class="flash-close" type="button" data-dismiss-flash aria-label="Dismiss"><i class="bi bi-x-lg"></i></button>
+                </div>
+              </c:forEach>
+            </div>
+          </c:if>
+  </c:when>
+
+  <%-- =========================================================== auth shell --%>
+  <c:when test="${shell eq 'auth'}">
+    <header class="auth-nav">
+      <a class="brand" href="${ctx}/">
+        <span class="brand-mark"><i class="bi bi-lightning-charge-fill"></i></span>
+        <span class="brand-text"><strong>Run</strong><em>Ease</em><small>Running events</small></span>
+      </a>
+      <a class="back" href="${ctx}/"><i class="bi bi-arrow-left"></i> Back to RunEase</a>
+    </header>
+    <main class="auth-main" id="main">
+      <c:if test="${not empty flashMessages}">
+        <div class="flash-stack" style="max-width:1060px;margin:0 auto 18px" aria-live="polite">
+          <c:forEach var="flash" items="${flashMessages}">
+            <div class="flash flash-${flash.type}">
+              <i class="bi ${flash.icon}"></i>
+              <div class="flash-body"><c:out value="${flash.message}"/></div>
+              <button class="flash-close" type="button" data-dismiss-flash aria-label="Dismiss"><i class="bi bi-x-lg"></i></button>
+            </div>
+          </c:forEach>
+        </div>
+      </c:if>
+  </c:when>
+
+  <%-- ========================================================= public shell --%>
+  <c:otherwise>
+    <header class="public-nav" id="publicNav">
+      <div class="container">
+        <div class="nav-inner">
+          <a class="brand" href="${ctx}/">
+            <span class="brand-mark"><i class="bi bi-lightning-charge-fill"></i></span>
+            <span class="brand-text"><strong>Run</strong><em>Ease</em><small>Running events</small></span>
+          </a>
+          <nav class="nav-links" aria-label="Main navigation">
+            <a class="${path eq '/' ? 'active' : ''}" href="${ctx}/">Home</a>
+            <a class="${path eq '/events' or fn:startsWith(path, '/events/') ? 'active' : ''}" href="${ctx}/events">Events</a>
+            <a href="${ctx}/#how-it-works">How it works</a>
+            <a href="${ctx}/register?type=organizer">For organizers</a>
+          </nav>
+          <div class="nav-actions">
+            <c:choose>
+              <c:when test="${not empty user}">
+                <a class="btn btn-accent btn-sm" href="${ctx}${user.role.home}"><i class="bi bi-speedometer2"></i> ${user.roleLabel} dashboard</a>
+              </c:when>
+              <c:otherwise>
+                <a class="btn btn-ghost btn-sm" href="${ctx}/login">Sign in</a>
+                <a class="btn btn-accent btn-sm" href="${ctx}/register">Create account</a>
+              </c:otherwise>
+            </c:choose>
+          </div>
+          <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-controls="publicNav" aria-expanded="false">
+            <i class="bi bi-list"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main id="main">
+      <c:if test="${not empty flashMessages}">
+        <div class="container" style="padding-top:20px">
+          <div class="flash-stack" aria-live="polite">
+            <c:forEach var="flash" items="${flashMessages}">
+              <div class="flash flash-${flash.type}">
+                <i class="bi ${flash.icon}"></i>
+                <div class="flash-body"><c:out value="${flash.message}"/></div>
+                <button class="flash-close" type="button" data-dismiss-flash aria-label="Dismiss"><i class="bi bi-x-lg"></i></button>
+              </div>
+            </c:forEach>
+          </div>
+        </div>
+      </c:if>
+  </c:otherwise>
+</c:choose>

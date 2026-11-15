@@ -1,0 +1,22 @@
+<article class="event-card">
+  <div class="cover ${event.coverClass}">
+    <span class="cover-date"><strong>${event.dateDay}</strong><span>${event.dateMonth}</span></span>
+    <span class="cover-badge">${event.typeLabel}</span>
+    <span class="cover-caption"><i class="bi bi-geo-alt-fill"></i><c:out value="${event.location}"/></span>
+  </div>
+  <div class="event-card-body">
+    <h3><a href="${ctx}/events/${event.eventId}"><c:out value="${event.title}"/></a></h3>
+    <div class="event-card-meta">
+      <span><i class="bi bi-calendar3"></i>${event.shortDateFormatted}</span>
+      <span><i class="bi bi-signpost-split"></i>${event.distanceSummary}</span>
+    </div>
+    <div class="row-flex">
+      <span class="pill pill-${event.registrationStateBadge}">${event.registrationStateLabel}</span>
+      <span class="small muted ms-auto">${event.countdownLabel}</span>
+    </div>
+    <div class="event-card-foot">
+      <div class="event-price">${event.minPriceFormatted}<small>entry fee</small></div>
+      <a class="btn btn-ink btn-sm" href="${ctx}/events/${event.eventId}">View race <i class="bi bi-arrow-right"></i></a>
+    </div>
+  </div>
+</article>

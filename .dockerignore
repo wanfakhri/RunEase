@@ -1,0 +1,12 @@
+target/
+data/
+docs/
+database/
+scripts/
+.git/
+.gitignore
+*.log
+*.tmp
+.idea/
+.vscode/
+__pycache__/

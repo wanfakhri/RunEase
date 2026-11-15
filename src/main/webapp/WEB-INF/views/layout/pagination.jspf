@@ -1,0 +1,23 @@
+<c:if test="${not empty pager}">
+  <nav class="pager" aria-label="Pagination">
+    <div class="pager-summary">
+      Showing <strong>${pager.startRecord}&ndash;${pager.endRecord}</strong> of <strong>${pager.total}</strong>
+      <c:if test="${pager.totalPages gt 1}">&middot; page ${pager.page} of ${pager.totalPages}</c:if>
+    </div>
+    <ul class="pager-list">
+      <li>
+        <a class="${pager.hasPrevious ? '' : 'disabled'}" href="${pager.pageUrl(pager.previousPage)}" aria-label="Previous page">
+          <i class="bi bi-chevron-left"></i>
+        </a>
+      </li>
+      <c:forEach var="n" items="${pager.pageNumbers}">
+        <li><a class="${n eq pager.page ? 'active' : ''}" href="${pager.pageUrl(n)}" <c:if test="${n eq pager.page}">aria-current="page"</c:if>>${n}</a></li>
+      </c:forEach>
+      <li>
+        <a class="${pager.hasNext ? '' : 'disabled'}" href="${pager.pageUrl(pager.nextPage)}" aria-label="Next page">
+          <i class="bi bi-chevron-right"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</c:if>
