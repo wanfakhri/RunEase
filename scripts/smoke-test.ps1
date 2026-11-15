@@ -4,8 +4,8 @@
     End-to-end smoke test for a running RunEase instance.
 
 .DESCRIPTION
-    Signs in as each role, checks the main pages, verifies role isolation and
-    CSRF protection, and calls the admin JSON API. Prints PASS/FAIL per check.
+    Signs in as each role, checks the main pages, verifies role isolation,
+    CSRF protection and logout, and calls the admin JSON API. Prints PASS/FAIL per check.
 
 .EXAMPLE
     .\scripts\smoke-test.ps1
@@ -82,6 +82,40 @@ function Check-Redirect {
     } else {
         $script:failed++
         Write-Host ("  FAIL  {0,-52} {1} -> {2} (expected {3})" -f $Name, $Response.Status, $Response.Location, $ExpectedPath) -ForegroundColor Red
+    }
+}
+
+function Get-PostRedirect {
+    param($Session, [string]$Path, [hashtable]$Body)
+    $encoded = ($Body.GetEnumerator() | ForEach-Object {
+            "{0}={1}" -f [uri]::EscapeDataString([string]$_.Key), [uri]::EscapeDataString([string]$_.Value)
+        }) -join "&"
+    $bytes = [System.Text.Encoding]::UTF8.GetBytes($encoded)
+    $request = [System.Net.HttpWebRequest]::Create("$BaseUrl$Path")
+    $request.Method = "POST"
+    $request.AllowAutoRedirect = $false
+    $request.CookieContainer = $Session.Cookies
+    $request.ContentType = "application/x-www-form-urlencoded"
+    $request.ContentLength = $bytes.Length
+    $request.Timeout = 30000
+    try {
+        $stream = $request.GetRequestStream()
+        $stream.Write($bytes, 0, $bytes.Length)
+        $stream.Close()
+        $response = $request.GetResponse()
+    } catch [System.Net.WebException] {
+        $response = $_.Exception.Response
+    }
+    if ($null -eq $response) {
+        return [pscustomobject]@{ Status = 0; Location = "" }
+    }
+    try {
+        return [pscustomobject]@{
+            Status   = [int]$response.StatusCode
+            Location = [string]$response.Headers["Location"]
+        }
+    } finally {
+        $response.Close()
     }
 }
 
@@ -180,6 +214,17 @@ try {
     Check "POST /logout without CSRF" $code 403
 }
 Check "GET /api/admin/users (guest)" (Get-Page (New-Session) "/api/admin/users").Status 401
+
+# --- Logout -----------------------------------------------------------------
+Write-Host "Logout"
+$logoutSession = Connect-Role "alia@student.uitm.edu.my"
+$dashboard = Get-Page $logoutSession "/dashboard"
+$logoutToken = [regex]::Match($dashboard.Content, 'name="csrf-token" content="([^"]+)"').Groups[1].Value
+if (-not $logoutToken) { throw "CSRF token not found on /dashboard" }
+$logout = Get-PostRedirect $logoutSession "/logout" @{ _csrf = $logoutToken }
+Check "POST /logout with CSRF" $logout.Status 302
+Check-Redirect "logout redirects to login" $logout "/login"
+Check-Redirect "GET /dashboard after logout" (Get-Redirect $logoutSession "/dashboard") "/login"
 
 Write-Host ""
 if ($script:failed -eq 0) {

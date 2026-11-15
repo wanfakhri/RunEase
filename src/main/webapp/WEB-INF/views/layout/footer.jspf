@@ -83,9 +83,9 @@
 <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
 
 <script src="${ctx}/assets/js/bootstrap.bundle.min.js"></script>
-<script src="${ctx}/assets/js/app.js"></script>
+<script src="${ctx}/assets/js/app.js?v=20261116"></script>
 <c:if test="${path eq '/admin/users'}">
-  <script src="${ctx}/assets/js/users.js"></script>
+  <script src="${ctx}/assets/js/users.js?v=20261116"></script>
 </c:if>
 </body>
 </html>

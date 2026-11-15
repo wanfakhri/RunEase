@@ -100,7 +100,6 @@
       pendingResolve = null;
       resolve(value);
     }
-    pendingForm = null;
   }
 
   ready(function () {
