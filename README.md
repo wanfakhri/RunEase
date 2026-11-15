@@ -256,7 +256,7 @@ the MySQL scripts first.
 
 ### Verified end-to-end during development
 
-Automated smoke test (25 checks: page availability, role isolation, guest redirect,
+Automated smoke test (28 checks: page availability, role isolation, guest redirect,
 CSRF rejection and JSON API access):
 
 ```powershell
@@ -302,7 +302,7 @@ RunEase/
 │   ├── screenshots/                   14 captured UI screens
 │   └── images/                        ERD and application flowchart
 ├── run.ps1 / run.cmd                  One-command local server
-├── scripts/smoke-test.ps1             End-to-end smoke test (25 checks)
+├── scripts/smoke-test.ps1             End-to-end smoke test (28 checks)
 ├── Dockerfile / render.yaml           Cloud deployment (Tomcat 10.1 image)
 ├── docs/DEPLOYMENT.md                 Deploy to Render, Railway, Azure or a VPS
 ├── mvnw / mvnw.cmd                    Maven wrapper
